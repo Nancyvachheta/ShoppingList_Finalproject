@@ -7,7 +7,6 @@ export const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('light');
 
-  // Sync Firebase when theme is updated
   const updateFirebaseTheme = async (newTheme) => {
     const user = auth.currentUser;
     if (user) {

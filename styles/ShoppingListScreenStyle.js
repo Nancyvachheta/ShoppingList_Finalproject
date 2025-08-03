@@ -1,4 +1,3 @@
-// styles/ShoppingListScreenStyle.js
 import { StyleSheet } from 'react-native';
 
 const ShoppingListScreenStyle = StyleSheet.create({
@@ -54,6 +53,15 @@ const ShoppingListScreenStyle = StyleSheet.create({
     marginBottom: 12,
     borderRadius: 8,
     fontSize: 16,
+  },
+    label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+  },
+  titleDark: {
+    color: '#ffffff',
   },
 });
 

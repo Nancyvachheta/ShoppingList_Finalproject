@@ -1,24 +1,28 @@
 import { useEffect, useState, useContext } from 'react';
-import {
-  View, Text, FlatList, TextInput, Button, Modal,
-  TouchableOpacity, Alert
-} from 'react-native';
+import { View, Text, TextInput, Button, Modal, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import styles from '../styles/ShoppingListScreenStyle';
-import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemeContext } from '../ThemeContext';
 
+const categories = [
+  { label: 'General', value: 'general' },
+  { label: 'Groceries', value: 'groceries' },
+  { label: 'Electronics', value: 'electronics' },
+  { label: 'Clothing', value: 'clothing' },
+  { label: 'Pharmacy', value: 'pharmacy' },
+];
+
 export default function ShoppingListScreen({ route, navigation }) {
   const listId = route?.params?.listId;
-  const listName = route?.params?.listName || 'Shopping List';
   const { theme } = useContext(ThemeContext);
   const isDark = theme === 'dark';
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [categoryDropdownVisible, setCategoryDropdownVisible] = useState(false);
   const [category, setCategory] = useState('general');
 
   useEffect(() => {
@@ -77,6 +81,14 @@ export default function ShoppingListScreen({ route, navigation }) {
     }
   };
 
+  const groupedItems = categories.reduce((acc, cat) => {
+    const catItems = items.filter(i => i.category === cat.value);
+    if (catItems.length > 0) {
+      acc.push({ category: cat.label, items: catItems });
+    }
+    return acc;
+  }, []);
+
   if (!listId) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -88,28 +100,32 @@ export default function ShoppingListScreen({ route, navigation }) {
 
   return (
     <SafeAreaView style={[styles.container, isDark && styles.containerDark]}>
-      <FlatList
-        data={items}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={[styles.item, item.checked && styles.checkedItem]}
-            onPress={() => toggleItem(item)}
-            onLongPress={() =>
-              Alert.alert(
-                'Delete Item',
-                `Are you sure you want to delete "${item.name}"?`,
-                [
-                  { text: 'Cancel', style: 'cancel' },
-                  { text: 'Delete', style: 'destructive', onPress: () => deleteItem(item) }
-                ]
-              )
-            }
-          >
-            <Text style={styles.itemText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-      />
+      <ScrollView>
+        {groupedItems.map(({ category, items }) => (
+          <View key={category} style={{ marginBottom: 20 }}>
+            <Text style={[styles.label, isDark && styles.titleDark]}>{category}:</Text>
+            {items.map(item => (
+              <TouchableOpacity
+                key={item.id}
+                style={[styles.item, item.checked && styles.checkedItem]}
+                onPress={() => toggleItem(item)}
+                onLongPress={() =>
+                  Alert.alert(
+                    'Delete Item',
+                    `Are you sure you want to delete "${item.name}"?`,
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      { text: 'Delete', style: 'destructive', onPress: () => deleteItem(item) }
+                    ]
+                  )
+                }
+              >
+                <Text style={styles.itemText}>{item.name}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
 
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
@@ -134,19 +150,37 @@ export default function ShoppingListScreen({ route, navigation }) {
               value={newItem}
               onChangeText={setNewItem}
               style={styles.input}
+              autoFocus
             />
 
-            <Picker
-              selectedValue={category}
-              onValueChange={(value) => setCategory(value)}
-              style={styles.picker}
+            <TouchableOpacity
+              onPress={() => setCategoryDropdownVisible(!categoryDropdownVisible)}
+              style={[styles.dropdownToggle, isDark && styles.dropdownToggleDark]}
             >
-              <Picker.Item label="General" value="general" />
-              <Picker.Item label="Groceries" value="groceries" />
-              <Picker.Item label="Electronics" value="electronics" />
-              <Picker.Item label="Clothing" value="clothing" />
-              <Picker.Item label="Pharmacy" value="pharmacy" />
-            </Picker>
+              <Text style={[styles.dropdownText, isDark && styles.dropdownTextDark]}>
+                Category: {categories.find(c => c.value === category)?.label || 'Select'}
+              </Text>
+              <Ionicons name={categoryDropdownVisible ? 'chevron-up' : 'chevron-down'} size={20} color={isDark ? 'white' : 'black'} />
+            </TouchableOpacity>
+
+            {categoryDropdownVisible && (
+              <View style={[styles.dropdownList, isDark && styles.dropdownListDark]}>
+                {categories.map(cat => (
+                  <TouchableOpacity
+                    key={cat.value}
+                    onPress={() => {
+                      setCategory(cat.value);
+                      setCategoryDropdownVisible(false);
+                    }}
+                    style={[styles.dropdownItem, cat.value === category && styles.dropdownItemSelected]}
+                  >
+                    <Text style={[styles.dropdownItemText, cat.value === category && styles.dropdownItemTextSelected]}>
+                      {cat.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
 
             <Button title="Add" onPress={addItem} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} color="red" />

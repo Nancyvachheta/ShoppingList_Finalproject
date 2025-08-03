@@ -1,4 +1,3 @@
-// navigation/RootNavigator.js
 import { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { onAuthStateChanged } from 'firebase/auth';

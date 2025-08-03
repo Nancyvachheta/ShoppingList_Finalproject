@@ -8,7 +8,7 @@ import { signOut } from 'firebase/auth';
 import styles from '../styles/ProfileScreenStyle';
 import { ThemeContext } from '../ThemeContext';
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen() {
   const user = auth.currentUser;
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');

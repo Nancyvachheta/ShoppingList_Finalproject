@@ -72,6 +72,13 @@ const HomeScreenStyle = StyleSheet.create({
     borderRadius: 8,
     fontSize: 16,
   },
+  modalButtonText: {
+    fontSize: 18,
+    color: '#2196F3',
+    textAlign: 'center',
+    paddingVertical: 8,
+    fontWeight: '600',
+  },
 });
 
 export default HomeScreenStyle;

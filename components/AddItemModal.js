@@ -1,5 +1,4 @@
-// components/AddItemModal.js
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, View, TextInput, Button, StyleSheet } from 'react-native';
 
 const AddItemModal = ({ visible, onClose, onAddItem }) => {

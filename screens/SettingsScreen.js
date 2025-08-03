@@ -1,11 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  View, Text, Switch, ActivityIndicator, Alert, ScrollView
-} from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import { View, Text, Switch, ActivityIndicator, Alert, ScrollView } from 'react-native';
 import { ThemeContext } from '../ThemeContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from '../styles/SettingsScreenStyle';
-import Constants from 'expo-constants';
 import { auth, db } from '../firebaseConfig';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 
@@ -65,7 +62,7 @@ export default function SettingsScreen() {
             thumbColor={isDark ? '#f5dd4b' : '#f4f3f4'}
           />
         </View>
-         <View style={styles.row}>
+        <View style={styles.row}>
           <Text style={[styles.label, isDark && styles.labelDark]}>Version: </Text>
           <Text style={[styles.label, isDark && styles.labelDark]}>2.0</Text>
         </View>

@@ -1,8 +1,7 @@
-// components/ListItem.js
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { ThemeContext } from '../ThemeContext'; // ✅ Make sure the path is correct
+import { ThemeContext } from '../ThemeContext';
 
 const ListItem = ({ item, onToggleChecked, onDelete }) => {
   const { theme } = useContext(ThemeContext);

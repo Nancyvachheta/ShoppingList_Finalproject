@@ -53,6 +53,58 @@ const SettingsScreenStyle = StyleSheet.create({
   textDark: {
     color: '#ccc',
   },
+  dropdownToggle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+
+  dropdownToggleDark: {
+    borderColor: '#555',
+  },
+
+  dropdownText: {
+    fontSize: 16,
+    color: 'black',
+  },
+
+  dropdownTextDark: {
+    color: 'white',
+  },
+
+  dropdownList: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    maxHeight: 150,
+    backgroundColor: 'white',
+  },
+
+  dropdownListDark: {
+    borderColor: '#555',
+    backgroundColor: '#222',
+  },
+
+  dropdownItem: {
+    padding: 10,
+  },
+
+  dropdownItemSelected: {
+    backgroundColor: '#2196F3',
+  },
+
+  dropdownItemText: {
+    fontSize: 16,
+  },
+
+  dropdownItemTextSelected: {
+    color: 'white',
+  },
 });
 
 export default SettingsScreenStyle;

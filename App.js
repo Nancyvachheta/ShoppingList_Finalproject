@@ -1,7 +1,6 @@
-import React from 'react';
-import { AuthProvider } from './AuthContext';        // Import AuthProvider correctly
-import { ThemeProvider } from './ThemeContext';      // Your ThemeProvider import
-import RootNavigator from './navigation/RootNavigator';  // Import RootNavigator
+import { AuthProvider } from './AuthContext';
+import { ThemeProvider } from './ThemeContext';
+import RootNavigator from './navigation/RootNavigator';
 import 'react-native-gesture-handler';
 
 export default function App() {
